@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Yahtzee-Bragi</title>
+    <link href="yahtzee.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body style="min-width: 500px">
+    <div id="allMain">
+      <div id="upperMain">
+        <div id="upperLeft">
+          <div id="dice1" class="dice">
+            <span id="oneA" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="oneB" class="dot hidden"> </span>
+            <span id="oneC" class="dot hidden"> </span>
+            <span id="oneD" class="dot"> </span>
+            <span id="oneE" class="dot hidden"> </span>
+            <span id="oneF" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="oneG" class="dot hidden"> </span>
+          </div>
+          <div id="dice2" class="dice">
+            <span id="twoA" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="twoB" class="dot hidden"> </span>
+            <span id="twoC" class="dot hidden"> </span>
+            <span id="twoD" class="dot"> </span>
+            <span id="twoE" class="dot hidden"> </span>
+            <span id="twoF" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="twoG" class="dot hidden"> </span>
+          </div>
+          <div id="dice3" class="dice">
+            <span id="threeA" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="threeB" class="dot hidden"> </span>
+            <span id="threeC" class="dot hidden"> </span>
+            <span id="threeD" class="dot"> </span>
+            <span id="threeE" class="dot hidden"> </span>
+            <span id="threeF" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="threeG" class="dot hidden"> </span>
+          </div>
+          <div id="dice4" class="dice">
+            <span id="fourA" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="fourB" class="dot hidden"> </span>
+            <span id="fourC" class="dot hidden"> </span>
+            <span id="fourD" class="dot"> </span>
+            <span id="fourE" class="dot hidden"> </span>
+            <span id="fourF" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="fourG" class="dot hidden"> </span>
+          </div>
+          <div id="dice5" class="dice">
+            <span id="fiveA" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="fiveB" class="dot hidden"> </span>
+            <span id="fiveC" class="dot hidden"> </span>
+            <span id="fiveD" class="dot"> </span>
+            <span id="fiveE" class="dot hidden"> </span>
+            <span id="fiveF" class="dot hidden"> </span>
+            <span class="dot hidden"> </span>
+            <span id="fiveG" class="dot hidden"> </span>
+          </div>
+        </div>
+        <div id="upperMiddle">
+          <div id="rollButton"><button id="rollbtn">ROLL</button></div>
+        </div>
+        <div id="upperRight">
+          <div id="roundRoll">
+            <span
+              ><strong id="rollCnt" class="cText">0/3</strong>&nbsp &nbsp Rolls
+            </span>
+            <br />
+            <span><strong class="cText">0/13 </strong> Round</span>
+          </div>
+        </div>
+      </div>
+      <div id="middleMain">
+        <div id="middleLeft">
+          <table id="aTable">
+            <thead>
+              <td width="10px"></td>
+              <td width="80px"></td>
+              <td style="font-weight:bold;">P1</td>
+              <td style="font-weight:bold;">P2</td>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>Aces</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Twos</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Threes</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Fours</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Fives</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Sixes</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>BONUS</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td>A-Total:</td>
+                  <td class="pHolder">0</td>
+                  <td class="pHolder">0</td>
+                </tr>
+              </tfoot>
+            </tbody>
+          </table>
+        </div>
+        <div id="middleRight">
+          <table id="bTable">
+            <thead>
+              <tr >
+                <td width="10px"></td>
+                <td width="80px"></td>
+                <td style="font-weight:bold;">P1</td>
+                <td style="font-weight:bold;">P2</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>3 of a kind</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>4 of a kind</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Full House</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>S-Straight</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>L-Straight</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Yahtzee!</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Chance</td>
+                <td class="pHolder"></td>
+                <td class="pHolder"></td>
+              </tr>
+            </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td>B-Total:</td>
+                  <td class="pHolder">0</td>
+                  <td class="pHolder">0</td>
+                </tr>
+              </tfoot>
+          </table>
+        </div>
+      </div>
+      <div id="bottomMain">
+        <button id="helpButton">
+          ?
+        </button>
+        <div id="bottomSubmit">
+            <button>SUBMIT SCORE</button>
+        </div>
+        <div>
+          <div id="scoreCard">
+            <span>P1 Total:
+            </span>
+            <strong style="font-size: large;">0</strong>
+            <span>
+              P2 Total: 
+            </span>
+            <strong style="font-size: large;">0</strong>
+          </div>
+        </div>
+        <div id="bottomRight">
+            <button>NEW GAME</button>
+        </div>
+      </div>
+    </div>
+    <script src="yahtzee.js"></script>
+  </body>
+</html>

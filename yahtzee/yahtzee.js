@@ -5,9 +5,11 @@ let dice3 = document.getElementById("dice3");
 let dice4 = document.getElementById("dice4");
 let dice5 = document.getElementById("dice5");
 let rollCountDiv = document.getElementById("rollCnt")
+let roundCountDiv = document.getElementById("roundCnt")
+
 let toggle = 0, d1Roll,d2Roll,d3Roll,d4Roll,d5Roll,gameActive = false
 let rollCount = 0, diceArr = new Array(5), temp, tempstring, uniq, cellSelected
-
+let roundCount = 0
 let aTable = document.getElementById("aTable");
 let bTable = document.getElementById("bTable");
 
@@ -128,15 +130,29 @@ function shakeAnimation(dice) {
   }, 100);
 }
 
-const tableA = {
+let sumscore, Atotal
+
+class Player {
+  constructor(score) {
+    this.score = score
+  }
+  
+  checkBonus(score) {
+    sumscore = score.aces + score.twos + score.threes + score.fours + score.fives + score.sixes
+    if(sumscore >= 63){
+      score.bonus = 35
+    }
+  }
+}
+
+const playerScore = {
   aces: 0,
   twos: 0,
   threes: 0,
   fours: 0,
   fives: 0,
-  sixes: 0
-}
-const tableB = {
+  sixes: 0,
+  bonus:0,
   toak: 0,
   foak: 0,
   fhouse: 0,
@@ -145,7 +161,10 @@ const tableB = {
   yahtzee: 0,
   chance: 0,
 }
-const tableA2 = {
+
+let player1 = new Player(playerScore)
+
+let tableA = {
   aces: 0,
   twos: 0,
   threes: 0,
@@ -153,7 +172,7 @@ const tableA2 = {
   fives: 0,
   sixes: 0
 }
-const tableB2 = {
+let tableB = {
   toak: 0,
   foak: 0,
   fhouse: 0,
@@ -175,28 +194,28 @@ function sumNums (array, n) {
 }
 //checks if 3oak/4oak/5oak/fullhouse
 function checkToak(array){
-  if(temp[0]==temp[2] || temp[1]==temp[2] || temp[2]==temp[4]){
+  if(array[0]==array[2] || array[1]==array[3] || array[2]==array[4]){
     return true
   } else {
     return false
   }
 }
 function checkFoak(array){
-  if(temp[0]==temp[3] || temp[1]==temp[4]){
+  if(array[0]==array[3] || array[1]==array[4]){
     return true
   } else {
     return false
   }
 }
 function checkYahtzee(array){
-  if(temp[0]==temp[4]){
+  if(array[0]==array[4]){
     return true
   } else {
     return false
   }
 }
 function checkFullhouse(array){
-  if(((array[0] == array[1]) && (array[2] != array[0])) || (array[3] == array[4])&& (array[2] != array[4])){
+  if(((array[0] == array[1]) && (array[2] == array[4])) || (array[0] == array[2]) && (array[3] == array[4])){
     return true
   } else {
     return false
@@ -204,11 +223,11 @@ function checkFullhouse(array){
 }
 //checks for straights
 function checkSmallS(array){
-  if(String(uniq).includes('4,3,2,1')){
+  if(String(array).includes('4,3,2,1')){
     return true 
-  } else if (String(uniq).includes('5,4,3,2')){
+  } else if (String(array).includes('5,4,3,2')){
     return true 
-  } else if (String(uniq).includes('6,5,4,3')){
+  } else if (String(array).includes('6,5,4,3')){
     return true 
   } else {
     return false
@@ -224,6 +243,7 @@ function checkLargeS(array){
   }
 }
 
+//calculates score
 function calcTable(array){
   tableA.aces = sumNums(array, 1)
   tableA.twos = sumNums(array, 2)
@@ -246,7 +266,7 @@ function calcTable(array){
   } else {
     tableB.fhouse = 0
   }
-  if (checkSmallS(temp)==true){
+  if (checkSmallS(uniq)==true){
     tableB.sstraight = 30
   } else {
     tableB.sstraight = 0
@@ -263,7 +283,8 @@ function calcTable(array){
   }
   tableB.chance = array.reduce((a, b) => a + b) 
 }
-function displayTable(){
+//displays placeholder score onto table
+function displayTable() {
   //P1
   aTable.rows[1].cells[2].innerHTML = String(tableA.aces)//aces
   aTable.rows[2].cells[2].innerHTML = String(tableA.twos)//twos
@@ -307,6 +328,9 @@ function displayTable(){
 
   bTable.rows[8].cells[3].innerHTML = '0'   //btotal
   
+}
+function clearTable() {
+
 }
 
 
@@ -353,108 +377,187 @@ function clearRows(){
   bTable.rows[6].cells[2].classList.remove("held")
 }
 
+let heldScore
+
 aTable.rows[1].onclick = () => {
-  if(aTable.rows[1].cells[2].classList.contains("held")) {
-    aTable.rows[1].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[1].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[1].cells[2].classList.contains("held")) {
+      aTable.rows[1].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[1].cells[2]
+      aTable.rows[1].cells[2].classList.add("held")
+    }
   }
 }
 aTable.rows[2].onclick = () => {
-  if(aTable.rows[2].cells[2].classList.contains("held")) {
-    aTable.rows[2].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[2].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[2].cells[2].classList.contains("held")) {
+      aTable.rows[2].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[2].cells[2]
+      aTable.rows[2].cells[2].classList.add("held")
+    }
   }
 }
 aTable.rows[3].onclick = () => {
-  if(aTable.rows[3].cells[2].classList.contains("held")) {
-    aTable.rows[3].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[3].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[3].cells[2].classList.contains("held")) {
+      aTable.rows[3].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[3].cells[2]
+      aTable.rows[3].cells[2].classList.add("held")
+    }
   }
 }
 aTable.rows[4].onclick = () => {
-  if(aTable.rows[4].cells[2].classList.contains("held")) {
-    aTable.rows[4].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[4].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[4].cells[2].classList.contains("held")) {
+      aTable.rows[4].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[4].cells[2]
+      aTable.rows[4].cells[2].classList.add("held")
+    }
   }
 }
 aTable.rows[5].onclick = () => {
-  if(aTable.rows[5].cells[2].classList.contains("held")) {
-    aTable.rows[5].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[5].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[5].cells[2].classList.contains("held")) {
+      aTable.rows[5].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[5].cells[2]
+      aTable.rows[5].cells[2].classList.add("held")
+    }
   }
 }
 aTable.rows[6].onclick = () => {
-  if(aTable.rows[6].cells[2].classList.contains("held")) {
-    aTable.rows[6].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    aTable.rows[6].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(aTable.rows[6].cells[2].classList.contains("held")) {
+      aTable.rows[6].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = aTable.rows[6].cells[2]
+      aTable.rows[6].cells[2].classList.add("held")
+    }
   }
 }
 
 bTable.rows[1].onclick = () => {
-  if(bTable.rows[1].cells[2].classList.contains("held")) {
-    bTable.rows[1].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[1].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[1].cells[2].classList.contains("held")) {
+      bTable.rows[1].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[1].cells[2]
+      bTable.rows[1].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[2].onclick = () => {
-  if(bTable.rows[2].cells[2].classList.contains("held")) {
-    bTable.rows[2].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[2].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[2].cells[2].classList.contains("held")) {
+      bTable.rows[2].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[2].cells[2]
+      bTable.rows[2].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[3].onclick = () => {
-  if(bTable.rows[3].cells[2].classList.contains("held")) {
-    bTable.rows[3].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[3].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[3].cells[2].classList.contains("held")) {
+      bTable.rows[3].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[3].cells[2]
+      bTable.rows[3].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[4].onclick = () => {
-  if(bTable.rows[4].cells[2].classList.contains("held")) {
-    bTable.rows[4].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[4].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[4].cells[2].classList.contains("held")) {
+      bTable.rows[4].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[4].cells[2]
+      bTable.rows[4].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[5].onclick = () => {
-  if(bTable.rows[5].cells[2].classList.contains("held")) {
-    bTable.rows[5].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[5].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[5].cells[2].classList.contains("held")) {
+      bTable.rows[5].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[5].cells[2]
+      bTable.rows[5].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[6].onclick = () => {
-  if(bTable.rows[6].cells[2].classList.contains("held")) {
-    bTable.rows[6].cells[2].classList.remove("held")
-  } else {
-    clearRows()
-    bTable.rows[6].cells[2].classList.add("held")
+  if(gameActive==true) {
+    if(bTable.rows[6].cells[2].classList.contains("held")) {
+      bTable.rows[6].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[6].cells[2]
+      bTable.rows[6].cells[2].classList.add("held")
+    }
   }
 }
 bTable.rows[7].onclick = () => {
-  if(bTable.rows[7].cells[2].classList.contains("held")) {
-    bTable.rows[7].cells[2].classList.remove("held")
-  } else {
+  if(gameActive==true) {
+    if(bTable.rows[7].cells[2].classList.contains("held")) {
+      bTable.rows[7].cells[2].classList.remove("held")
+    } else {
+      clearRows()
+      heldScore = bTable.rows[7].cells[2]
+      bTable.rows[7].cells[2].classList.add("held")
+    }
+  }
+}
+
+
+buttonSubmit.onclick = () => {
+  if (gameActive == true && roundCount < 13){
+    heldScore
+    
+    gameActive = false
     clearRows()
-    bTable.rows[7].cells[2].classList.add("held")
+    rollCount = 0
+    roundCount++ 
+    rollCountDiv.innerText = `${rollCount}/3`
+    roundCountDiv.innerText = `${roundCount}/13`
+    diceArr = new Array(5)
+    displayDie(1, dice1)
+    displayDie(1, dice2)
+    displayDie(1, dice3)
+    displayDie(1, dice4)
+    displayDie(1, dice5)
+    tableA = {
+      aces: 0,
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0
+    }
+    tableB = {
+      toak: 0,
+      foak: 0,
+      fhouse: 0,
+      sstraight: 0,
+      lstraight: 0,
+      yahtzee: 0,
+      chance: 0,
+    }
+    displayTable()
   }
-  }
+}

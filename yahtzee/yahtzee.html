@@ -86,57 +86,48 @@
             <thead>
               <td width="10px"></td>
               <td width="80px"></td>
-              <td style="font-weight:bold;">P1</td>
-              <td style="font-weight:bold;">P2</td>
+              <td style="font-weight:bold;">A</td>
             </thead>
             <tbody>
               <tr>
                 <td></td>
                 <td>Aces</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Twos</td>
-                <td class="pHolder"></td>
                 <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Threes</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Fours</td>
-                <td class="pHolder"></td>
                 <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Fives</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Sixes</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>BONUS</td>
-                <td class="pHolder"></td>
-                <td class="pHolder"></td>
+                <td class="pHolder">0</td>
               </tr>
               <tfoot>
                 <tr>
                   <td></td>
                   <td>A-Total:</td>
-                  <td class="pHolder">0</td>
                   <td class="pHolder">0</td>
                 </tr>
               </tfoot>
@@ -149,8 +140,7 @@
               <tr >
                 <td width="10px"></td>
                 <td width="80px"></td>
-                <td style="font-weight:bold;">P1</td>
-                <td style="font-weight:bold;">P2</td>
+                <td style="font-weight:bold;">B</td>
               </tr>
             </thead>
             <tbody>
@@ -158,42 +148,35 @@
                 <td></td>
                 <td>3 of a kind</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>4 of a kind</td>
-                <td class="pHolder"></td>
                 <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Full House</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>S-Straight</td>
-                <td class="pHolder"></td>
                 <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>L-Straight</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Yahtzee!</td>
                 <td class="pHolder"></td>
-                <td class="pHolder"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Chance</td>
-                <td class="pHolder"></td>
                 <td class="pHolder"></td>
               </tr>
             </tbody>
@@ -202,13 +185,23 @@
                   <td></td>
                   <td>B-Total:</td>
                   <td class="pHolder">0</td>
-                  <td class="pHolder">0</td>
                 </tr>
               </tfoot>
           </table>
         </div>
       </div>
-      <div id="bottomMain">
+      <div id="bottomMain" class="tooltip-container">
+        <p id="tooltip-text">Aces-Sixes: Total of each
+          <br> BONUS: 35 pt bonus if A-Total is ≥63<br>
+          <br> 3 of a Kind: Total of all 5 dice
+          <br> 4 of a Kind: Total of all 5 dice
+          <br> Full House (3 + 2): 25 pts
+          <br> Small Straight (4 in a row): 30 pts
+          <br> Large Straight (5 in a row): 40 pts
+          <br> Yahtzee (5 of a Kind): 50 pts
+          <br> Chance: Total of all 5 dice
+
+        </p>
         <button id="helpButton">
           ?
         </button>
@@ -217,17 +210,13 @@
         </div>
         <div>
           <div id="scoreCard">
-            <span>P1 Total:
+            <span>Total:
             </span>
-            <strong style="font-size: large;">0</strong>
-            <span>
-              P2 Total: 
-            </span>
-            <strong style="font-size: large;">0</strong>
+            <strong style="font-size: large;" id="totalScore">0</strong>
           </div>
         </div>
         <div id="bottomRight">
-            <button>NEW GAME</button>
+            <button onClick="window.location.reload();">NEW GAME</button>
         </div>
       </div>
     </div>

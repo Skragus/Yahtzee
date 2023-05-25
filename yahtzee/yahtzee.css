@@ -184,8 +184,7 @@ table td:last-child {
 }
 
 tbody tr {
-  border-bottom: thin solid #4B719624;
-  border-right: thin solid #4b709624;
+  border-bottom: thin solid #4b709600;
 }
 
 thead td{
@@ -197,7 +196,7 @@ thead td{
 
 tbody td{
   padding: 4px;
-  border-right: 1px solid #4B719624;
+
   color: #426283;
 }
 
@@ -210,7 +209,7 @@ tfoot td{
 }
 
 .pHolder {
-  color: #4b709676;
+  color: #4b7096ea;
 }
 
 #middleRight {
@@ -236,9 +235,45 @@ tfoot td{
   border-radius: 50%;
 }
 
+.tooltip-container {
+  position: relative;
+  display: flex;
+  place-content: center;
+}
+
+p#tooltip-text {
+  display: none;
+  position: absolute;
+  top: -215px;
+  background: #333;
+  padding: 8px;
+  font-size: 1rem;
+  color: #E4EFF0;
+  border-radius: 8px;
+  animation: fadeIn 0.6s;
+}
+
+p#tooltip-text:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  margin-left: 0px;
+  border: 8px solid transparent;
+  border-top: 8px solid #333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 #scoreCard {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  justify-content: space-evenly;
   min-width: 150px;
   min-height: 50px;
   background-color: #E4EFF0;
@@ -246,8 +281,9 @@ tfoot td{
   border: 1px solid transparent;
   border-color: #111;
   border-radius: .25rem;
-  padding: 5%;
-  font-size: small;
+  padding:5%;
+  padding-left: 2%;
+  font-size: medium;
   color: rgb(85, 85, 85);
 }
 strong,

@@ -7,11 +7,14 @@ let dice5 = document.getElementById("dice5");
 let rollCountDiv = document.getElementById("rollCnt")
 let roundCountDiv = document.getElementById("roundCnt")
 
-let toggle = 0, d1Roll,d2Roll,d3Roll,d4Roll,d5Roll,gameActive = false
+let toggle = 0, d1Roll,d2Roll,d3Roll,d4Roll,d5Roll,gameActive = false, anyHeld = false
 let rollCount = 0, diceArr = new Array(5), temp, tempstring, uniq, cellSelected
 let roundCount = 0
 let aTable = document.getElementById("aTable");
 let bTable = document.getElementById("bTable");
+let totalScoreDiv = document.getElementById("totalScore")
+
+let btotal= 0, atotal= 0
 
 //adds hidden class to all die
 function clearDice(dice) {
@@ -132,37 +135,6 @@ function shakeAnimation(dice) {
 
 let sumscore, Atotal
 
-class Player {
-  constructor(score) {
-    this.score = score
-  }
-  
-  checkBonus(score) {
-    sumscore = score.aces + score.twos + score.threes + score.fours + score.fives + score.sixes
-    if(sumscore >= 63){
-      score.bonus = 35
-    }
-  }
-}
-
-const playerScore = {
-  aces: 0,
-  twos: 0,
-  threes: 0,
-  fours: 0,
-  fives: 0,
-  sixes: 0,
-  bonus:0,
-  toak: 0,
-  foak: 0,
-  fhouse: 0,
-  sstraight: 0,
-  lstraight: 0,
-  yahtzee: 0,
-  chance: 0,
-}
-
-let player1 = new Player(playerScore)
 
 let tableA = {
   aces: 0,
@@ -245,6 +217,8 @@ function checkLargeS(array){
 
 //calculates score
 function calcTable(array){
+  console.log("temp")
+  console.log(temp)
   tableA.aces = sumNums(array, 1)
   tableA.twos = sumNums(array, 2)
   tableA.threes = sumNums(array, 3)
@@ -286,50 +260,49 @@ function calcTable(array){
 //displays placeholder score onto table
 function displayTable() {
   //P1
-  aTable.rows[1].cells[2].innerHTML = String(tableA.aces)//aces
-  aTable.rows[2].cells[2].innerHTML = String(tableA.twos)//twos
-  aTable.rows[3].cells[2].innerHTML = String(tableA.threes)//threes
-  aTable.rows[4].cells[2].innerHTML = String(tableA.fours)//fours
-  aTable.rows[5].cells[2].innerHTML = String(tableA.fives)//fives
-  aTable.rows[6].cells[2].innerHTML = String(tableA.sixes)//sixes
-  aTable.rows[7].cells[2].innerHTML = '0'//bonus 
 
-  aTable.rows[8].cells[2].innerHTML = '0'//atotal
-  
+  if(!aTable.rows[1].cells[2].classList.contains("score")){
+    aTable.rows[1].cells[2].innerHTML = String(tableA.aces)
+  }
+  if(!aTable.rows[2].cells[2].classList.contains("score")){
+    aTable.rows[2].cells[2].innerHTML = String(tableA.twos)
+  }
+  if(!aTable.rows[3].cells[2].classList.contains("score")){
+    aTable.rows[3].cells[2].innerHTML = String(tableA.threes)
+  }
+  if(!aTable.rows[4].cells[2].classList.contains("score")){
+    aTable.rows[4].cells[2].innerHTML = String(tableA.fours)
+  }
+  if(!aTable.rows[5].cells[2].classList.contains("score")){
+    aTable.rows[5].cells[2].innerHTML = String(tableA.fives)
+  }
+  if(!aTable.rows[6].cells[2].classList.contains("score")){
+    aTable.rows[6].cells[2].innerHTML = String(tableA.sixes)
+  }
 
-  bTable.rows[1].cells[2].innerHTML = String(tableB.toak)//3OAK
-  bTable.rows[2].cells[2].innerHTML = String(tableB.foak)//4OAK
-  bTable.rows[3].cells[2].innerHTML = String(tableB.fhouse)//FH
-  bTable.rows[4].cells[2].innerHTML = String(tableB.sstraight)//SS
-  bTable.rows[5].cells[2].innerHTML = String(tableB.lstraight)//LS
-  bTable.rows[6].cells[2].innerHTML = String(tableB.yahtzee)//Yahtzee
-  bTable.rows[7].cells[2].innerHTML = String(tableB.chance)//chance
 
-  bTable.rows[8].cells[2].innerHTML = '0'   //btotal
 
-//P2
-  aTable.rows[1].cells[3].innerHTML = '0'//aces
-  aTable.rows[2].cells[3].innerHTML = '0'//twos
-  aTable.rows[3].cells[3].innerHTML = '0'//threes
-  aTable.rows[4].cells[3].innerHTML = '0'//fours
-  aTable.rows[5].cells[3].innerHTML = '0'//fives
-  aTable.rows[6].cells[3].innerHTML = '0'//sixes
-  aTable.rows[7].cells[3].innerHTML = '0'//bonus
-
-  aTable.rows[8].cells[3].innerHTML = '0'//atotal
-  
-  bTable.rows[1].cells[3].innerHTML = '0'//3OAK
-  bTable.rows[2].cells[3].innerHTML = '0'//4OAK
-  bTable.rows[3].cells[3].innerHTML = '0'//FH
-  bTable.rows[4].cells[3].innerHTML = '0'//SS
-  bTable.rows[5].cells[3].innerHTML = '0'//LS
-  bTable.rows[6].cells[3].innerHTML = '0'//Yahtzee
-  bTable.rows[7].cells[3].innerHTML =  //chance
-
-  bTable.rows[8].cells[3].innerHTML = '0'   //btotal
-  
-}
-function clearTable() {
+  if(!bTable.rows[1].cells[2].classList.contains("score")){
+    bTable.rows[1].cells[2].innerHTML = String(tableB.toak)
+  }
+  if(!bTable.rows[2].cells[2].classList.contains("score")){
+    bTable.rows[2].cells[2].innerHTML = String(tableB.foak)
+  }
+  if(!bTable.rows[3].cells[2].classList.contains("score")){
+    bTable.rows[3].cells[2].innerHTML = String(tableB.fhouse)
+  }
+  if(!bTable.rows[4].cells[2].classList.contains("score")){
+    bTable.rows[4].cells[2].innerHTML = String(tableB.sstraight)
+  }
+  if(!bTable.rows[5].cells[2].classList.contains("score")){
+    bTable.rows[5].cells[2].innerHTML = String(tableB.lstraight)
+  }
+  if(!bTable.rows[6].cells[2].classList.contains("score")){
+    bTable.rows[6].cells[2].innerHTML = String(tableB.yahtzee)
+  }
+  if(!bTable.rows[7].cells[2].classList.contains("score")){
+    bTable.rows[7].cells[2].innerHTML = String(tableB.chance)
+  }
 
 }
 
@@ -337,7 +310,7 @@ function clearTable() {
 function playGame() { 
   gameActive = true
   rollCount++
-  if(rollCount < 40){
+  if(rollCount < 4){
     rollDie()
     rollCountDiv.innerText = `${rollCount}/3`
   };
@@ -350,7 +323,7 @@ function playGame() {
   displayTable()
 }
 
-rollButton.onclick = () => playGame();
+rollButton.onclick = () => {if(roundCount < 13){playGame()}};
 
 displayTable()
 
@@ -361,6 +334,9 @@ dice4.onclick = () => {if(gameActive==true){holdDie(dice4)}}
 dice5.onclick = () => {if(gameActive==true){holdDie(dice5)}}
 
 //aTable.rows[3].cells[2].classList.add("held")
+
+//make this a loop that ignores ("score")
+
 function clearRows(){
   aTable.rows[1].cells[2].classList.remove("held")
   aTable.rows[2].cells[2].classList.remove("held")
@@ -375,160 +351,237 @@ function clearRows(){
   bTable.rows[4].cells[2].classList.remove("held")
   bTable.rows[5].cells[2].classList.remove("held")
   bTable.rows[6].cells[2].classList.remove("held")
+  bTable.rows[7].cells[2].classList.remove("held")
 }
 
 let heldScore
 
 aTable.rows[1].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[1].cells[2].classList.contains("score"))) {
     if(aTable.rows[1].cells[2].classList.contains("held")) {
       aTable.rows[1].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[1].cells[2]
       aTable.rows[1].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 aTable.rows[2].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[2].cells[2].classList.contains("score"))) {
     if(aTable.rows[2].cells[2].classList.contains("held")) {
       aTable.rows[2].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[2].cells[2]
       aTable.rows[2].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 aTable.rows[3].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[3].cells[2].classList.contains("score"))) {
     if(aTable.rows[3].cells[2].classList.contains("held")) {
       aTable.rows[3].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[3].cells[2]
       aTable.rows[3].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 aTable.rows[4].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[4].cells[2].classList.contains("score"))) {
     if(aTable.rows[4].cells[2].classList.contains("held")) {
       aTable.rows[4].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[4].cells[2]
       aTable.rows[4].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 aTable.rows[5].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[5].cells[2].classList.contains("score"))) {
     if(aTable.rows[5].cells[2].classList.contains("held")) {
       aTable.rows[5].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[5].cells[2]
       aTable.rows[5].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 aTable.rows[6].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(aTable.rows[6].cells[2].classList.contains("score"))) {
     if(aTable.rows[6].cells[2].classList.contains("held")) {
       aTable.rows[6].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = aTable.rows[6].cells[2]
       aTable.rows[6].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 
 bTable.rows[1].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[1].cells[2].classList.contains("score"))) {
     if(bTable.rows[1].cells[2].classList.contains("held")) {
       bTable.rows[1].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[1].cells[2]
       bTable.rows[1].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[2].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[2].cells[2].classList.contains("score"))) {
     if(bTable.rows[2].cells[2].classList.contains("held")) {
       bTable.rows[2].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[2].cells[2]
       bTable.rows[2].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[3].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[3].cells[2].classList.contains("score"))) {
     if(bTable.rows[3].cells[2].classList.contains("held")) {
       bTable.rows[3].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[3].cells[2]
       bTable.rows[3].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[4].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[4].cells[2].classList.contains("score"))) {
     if(bTable.rows[4].cells[2].classList.contains("held")) {
       bTable.rows[4].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[4].cells[2]
       bTable.rows[4].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[5].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[5].cells[2].classList.contains("score"))) {
     if(bTable.rows[5].cells[2].classList.contains("held")) {
       bTable.rows[5].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[5].cells[2]
       bTable.rows[5].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[6].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[6].cells[2].classList.contains("score"))) {
     if(bTable.rows[6].cells[2].classList.contains("held")) {
       bTable.rows[6].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[6].cells[2]
       bTable.rows[6].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 bTable.rows[7].onclick = () => {
-  if(gameActive==true) {
+  if(gameActive==true && !(bTable.rows[7].cells[2].classList.contains("score"))) {
     if(bTable.rows[7].cells[2].classList.contains("held")) {
       bTable.rows[7].cells[2].classList.remove("held")
+      anyHeld = false
     } else {
       clearRows()
       heldScore = bTable.rows[7].cells[2]
       bTable.rows[7].cells[2].classList.add("held")
+      anyHeld = true
     }
   }
 }
 
+function saveScore () {
+  for (let index = 1; index < 8; index++) {
+    if(aTable.rows[index].cells[2].classList.contains("held")) {
+      aTable.rows[index].cells[2].style.fontWeight = "bold"
+      aTable.rows[index].cells[2].style.color = "#aabfd4"
+      aTable.rows[index].cells[2].classList.add("score")
+      atotal = Number(atotal) + Number(aTable.rows[index].cells[2].innerHTML)
+      if(atotal >= 63 && aTable.rows[7].cells[2].innerHTML == "0"){
+        aTable.rows[7].cells[2].innerHTML = "35"
+        aTable.rows[7].cells[2].style.fontWeight = "bold"
+        aTable.rows[7].cells[2].style.color = "#aabfd4"
+        atotal = atotal + 35
+      }
+      aTable.rows[8].cells[2].innerHTML = atotal
+
+      if(aTable.rows[1].cells[2].classList.contains("score") 
+      && aTable.rows[2].cells[2].classList.contains("score") 
+      && aTable.rows[3].cells[2].classList.contains("score") 
+      && aTable.rows[4].cells[2].classList.contains("score") 
+      && aTable.rows[5].cells[2].classList.contains("score") 
+      && aTable.rows[6].cells[2].classList.contains("score")){
+        aTable.rows[7].cells[2].style.fontWeight = "bold"
+        aTable.rows[7].cells[2].style.color = "#aabfd4"
+      }
+    } 
+  }
+
+  for (let index = 1; index < 8; index++) {
+    if(bTable.rows[index].cells[2].classList.contains("held")) {
+      bTable.rows[index].cells[2].style.fontWeight = "bold"
+      bTable.rows[index].cells[2].style.color = "#aabfd4"
+      bTable.rows[index].cells[2].classList.add("score")
+      btotal = Number(btotal) + Number(bTable.rows[index].cells[2].innerHTML)
+      bTable.rows[8].cells[2].innerHTML = btotal
+    } 
+  }
+  totalScoreDiv.innerText = btotal + atotal
+}
+const target = document.getElementById("helpButton");
+const tooltip = document.getElementById("tooltip-text");
+target.addEventListener('mouseover', () => {
+  tooltip.style.display = 'block';
+}, false);
+
+// change display to 'none' on mouseleave
+target.addEventListener('mouseleave', () => {
+  tooltip.style.display = 'none';
+}, false);
+
 
 buttonSubmit.onclick = () => {
-  if (gameActive == true && roundCount < 13){
-    heldScore
-    
+  if (gameActive == true && roundCount < 13 && anyHeld === true){
+    anyHeld = false
+    saveScore()
+    clearDice(dice1)
     gameActive = false
     clearRows()
     rollCount = 0
@@ -541,6 +594,11 @@ buttonSubmit.onclick = () => {
     displayDie(1, dice3)
     displayDie(1, dice4)
     displayDie(1, dice5)
+    dice1.classList.remove("held")
+    dice2.classList.remove("held")
+    dice3.classList.remove("held")
+    dice4.classList.remove("held")
+    dice5.classList.remove("held")
     tableA = {
       aces: 0,
       twos: 0,
@@ -559,5 +617,6 @@ buttonSubmit.onclick = () => {
       chance: 0,
     }
     displayTable()
+
   }
 }

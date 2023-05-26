@@ -1,4 +1,7 @@
 # Yahtzee
+
+Project#002
+
 Singleplayer version of Yahtzee, which is a popular dice game where players roll dice to score points and aim for the highest total score. 
 
 This project was an incredible learning experience for me, allowing me to become more comfortable with HTML, CSS, and JS. It was a significant step up from my previous project in terms of complexity. The most valuable lesson I learned was how to approach problem-solving when faced with problems without relying on follow-along tutorials. Which helped me improve my skills and become more independent.
